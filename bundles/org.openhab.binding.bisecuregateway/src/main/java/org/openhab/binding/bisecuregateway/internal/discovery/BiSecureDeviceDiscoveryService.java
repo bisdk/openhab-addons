@@ -18,12 +18,12 @@ import java.util.List;
 
 import org.bisdk.sdk.Group;
 import org.eclipse.jdt.annotation.NonNullByDefault;
+import org.openhab.binding.bisecuregateway.internal.BiSecureGatewayHandlerFactory;
+import org.openhab.binding.bisecuregateway.internal.handler.BiSecureGatewayHandler;
 import org.openhab.core.config.discovery.AbstractDiscoveryService;
 import org.openhab.core.config.discovery.DiscoveryResultBuilder;
 import org.openhab.core.thing.ThingStatus;
 import org.openhab.core.thing.ThingUID;
-import org.openhab.binding.bisecuregateway.internal.BiSecureGatewayHandlerFactory;
-import org.openhab.binding.bisecuregateway.internal.handler.BiSecureGatewayHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

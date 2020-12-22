@@ -12,7 +12,8 @@
  */
 package org.openhab.binding.bisecuregateway.internal;
 
-import static org.openhab.binding.bisecuregateway.internal.BiSecureGatewayBindingConstants.*;
+import static org.openhab.binding.bisecuregateway.internal.BiSecureGatewayBindingConstants.GATEWAY_BRIDGE_TYPE;
+import static org.openhab.binding.bisecuregateway.internal.BiSecureGatewayBindingConstants.GROUP_THING_TYPE;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -21,15 +22,15 @@ import java.util.Set;
 
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.openhab.binding.bisecuregateway.internal.discovery.BiSecureDeviceDiscoveryService;
+import org.openhab.binding.bisecuregateway.internal.handler.BiSecureGatewayHandler;
+import org.openhab.binding.bisecuregateway.internal.handler.BiSecureGroupHandler;
 import org.openhab.core.config.discovery.DiscoveryService;
 import org.openhab.core.thing.Thing;
 import org.openhab.core.thing.ThingTypeUID;
 import org.openhab.core.thing.binding.BaseThingHandlerFactory;
 import org.openhab.core.thing.binding.ThingHandler;
 import org.openhab.core.thing.binding.ThingHandlerFactory;
-import org.openhab.binding.bisecuregateway.internal.discovery.BiSecureDeviceDiscoveryService;
-import org.openhab.binding.bisecuregateway.internal.handler.BiSecureGatewayHandler;
-import org.openhab.binding.bisecuregateway.internal.handler.BiSecureGroupHandler;
 import org.osgi.service.component.annotations.Component;
 
 /**

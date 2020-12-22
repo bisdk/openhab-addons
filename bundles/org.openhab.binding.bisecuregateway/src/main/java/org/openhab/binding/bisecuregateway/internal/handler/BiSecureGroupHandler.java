@@ -1,48 +1,35 @@
 /**
  * Copyright (c) 2010-2019 Contributors to the openHAB project
- *
+ * <p>
  * See the NOTICE file(s) distributed with this work for additional
  * information.
- *
+ * <p>
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License 2.0 which is available at
  * http://www.eclipse.org/legal/epl-2.0
- *
+ * <p>
  * SPDX-License-Identifier: EPL-2.0
  */
 package org.openhab.binding.bisecuregateway.internal.handler;
 
 import static org.openhab.binding.bisecuregateway.internal.BiSecureGatewayBindingConstants.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.bisdk.PermissionDeniedException;
-import org.bisdk.sdk.ClientAPI;
-import org.bisdk.sdk.Group;
-import org.bisdk.sdk.Port;
-import org.bisdk.sdk.PortType;
-import org.bisdk.sdk.Transition;
+import org.bisdk.sdk.*;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
+import org.openhab.binding.bisecuregateway.internal.BiSecureGatewayBindingConstants;
+import org.openhab.binding.bisecuregateway.internal.BiSecureGatewayConfiguration;
+import org.openhab.binding.bisecuregateway.internal.BiSecureGatewayHandlerFactory;
 import org.openhab.core.library.types.PercentType;
 import org.openhab.core.library.types.StopMoveType;
 import org.openhab.core.library.types.StringType;
 import org.openhab.core.library.types.UpDownType;
-import org.openhab.core.thing.Bridge;
-import org.openhab.core.thing.Channel;
-import org.openhab.core.thing.ChannelUID;
-import org.openhab.core.thing.Thing;
-import org.openhab.core.thing.ThingStatus;
-import org.openhab.core.thing.ThingStatusDetail;
-import org.openhab.core.thing.ThingStatusInfo;
-import org.openhab.core.thing.ThingTypeUID;
+import org.openhab.core.thing.*;
 import org.openhab.core.thing.binding.BaseThingHandler;
 import org.openhab.core.thing.binding.BridgeHandler;
 import org.openhab.core.thing.binding.builder.ChannelBuilder;
@@ -51,9 +38,6 @@ import org.openhab.core.thing.type.ChannelTypeUID;
 import org.openhab.core.types.Command;
 import org.openhab.core.types.RefreshType;
 import org.openhab.core.types.State;
-import org.openhab.binding.bisecuregateway.internal.BiSecureGatewayBindingConstants;
-import org.openhab.binding.bisecuregateway.internal.BiSecureGatewayConfiguration;
-import org.openhab.binding.bisecuregateway.internal.BiSecureGatewayHandlerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,15 +50,12 @@ import org.slf4j.LoggerFactory;
 @NonNullByDefault
 public class BiSecureGroupHandler extends BaseThingHandler {
 
-    private final Logger logger = LoggerFactory.getLogger(BiSecureGroupHandler.class);
-
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES_UIDS = Collections.singleton(GROUP_THING_TYPE);
-
     /**
      * After 4 times a get state fails, we set the thing offline
      */
     private static final int MAX_ERRORS_IN_A_ROW = 4;
-
+    private final Logger logger = LoggerFactory.getLogger(BiSecureGroupHandler.class);
     private Map<ChannelUID, Port> ports = new HashMap<ChannelUID, Port>();
 
     private @Nullable ScheduledFuture<?> pollingJob;
@@ -145,9 +126,10 @@ public class BiSecureGroupHandler extends BaseThingHandler {
     private void initializeGroups(BiSecureGatewayHandler bridgeHandler) {
         List<Group> groups = bridgeHandler.getGroups();
         String groupId = getThing().getProperties().get(PROPERTY_ID);
+        int groupIdInt = groupId != null ? Integer.parseInt(groupId) : 0;
         Group group = null;
         for (Group toBeChecked : groups) {
-            if (toBeChecked.getId() == Integer.valueOf(groupId)) {
+            if (toBeChecked.getId() == groupIdInt) {
                 group = toBeChecked;
             }
         }
@@ -157,9 +139,10 @@ public class BiSecureGroupHandler extends BaseThingHandler {
         }
         channels = new ArrayList<Channel>();
         group.getPorts().forEach(port -> {
-            String portType = PortType.Companion.from(port.getType()).name(); // e.g. "IMPULS" for garage door control
-            ChannelTypeUID channelTypeUID = new ChannelTypeUID(BINDING_ID, portType);
-            ChannelUID channelUID = new ChannelUID(getThing().getUID(), port.getId() + "_" + portType);
+            PortType portType = PortType.Companion.from(port.getType());
+            String portTypeName = (portType != null) ? portType.name() : ""; // e.g. "IMPULS" for garage door control
+            ChannelTypeUID channelTypeUID = new ChannelTypeUID(BINDING_ID, portTypeName);
+            ChannelUID channelUID = new ChannelUID(getThing().getUID(), port.getId() + "_" + portTypeName);
             Channel channel = ChannelBuilder.create(channelUID, BiSecureGatewayBindingConstants.ITEM_TYPE_ROLLERSHUTTER)
                     .withType(channelTypeUID).build();
             channels.add(channel);

@@ -26,5 +26,4 @@ public class BiSdkLoggerAdapter implements LoggerAdapter {
     public void warn(String msg) {
         logger.warn(msg);
     }
-
 }
