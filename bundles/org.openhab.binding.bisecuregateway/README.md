@@ -28,7 +28,7 @@ If auto discovery fails (e.g. because of network problems etc) you can add a BiS
 
 ### Docker
 
-For auto discovery to work, aou will need to set the network mode to _host_
+For auto discovery to work, you will need to set the network mode to _host_
 
 ## Thing Configuration
 
