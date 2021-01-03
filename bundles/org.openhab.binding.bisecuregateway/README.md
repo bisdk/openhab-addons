@@ -26,7 +26,9 @@ When calling the auto discovery the gateway is discovered first. You should then
 
 If auto discovery fails (e.g. because of network problems etc) you can add a BiSecure Gateway thing manually and set the gatewayAddress and gatewayId in the configuration properties manually. 
 
-We are currently investigating problem with auto discovery while running under docker.
+### Docker
+
+For auto discovery to work, aou will need to set the network mode to _host_
 
 ## Thing Configuration
 
