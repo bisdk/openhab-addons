@@ -5,6 +5,19 @@ With this binding the BiSecure gateway and all doors (and other devices) which a
 
 We currently do not support any teach in of other devices into the gateway.
 
+## Download
+
+### Openhab 3 Version
+https://drive.google.com/file/d/1bVNnow4rEYYf36Co2ccOswjInqA5Yib2/view?usp=sharing
+
+### Openhab 2 Version
+https://drive.google.com/file/d/1_XVxSVs6jv5jph49t6nsNNpMnPIejWSr/view?usp=sharing
+
+## Installation
+
+Copy the jar file into the addons folder of your openhab installation.
+For Openhabian this is `/openhab/openhab2-addons` or `/usr/share/openhab2/addons`
+
 ## Supported Things
 
 ### BiSecure Gateway
